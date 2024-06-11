@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,13 +89,58 @@ namespace tes1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            serialPort1.PortName = comboBox1.Text;
-            serialPort1.BaudRate = Int32.Parse(comboBox2.Text);
-            serialPort1.DataBits = Int32.Parse(comboBox3.Text);
-            serialPort1.Parity = System.IO.Ports.Parity.Even;
-            serialPort1.StopBits = System.IO.Ports.StopBits.Two;
-            serialPort1.Open();
-            Form1.ActiveForm.Text = serialPort1.PortName + " is connected";
+            try
+            {
+                serialPort1.PortName = comboBox1.Text;
+                serialPort1.BaudRate = Int32.Parse(comboBox2.Text);
+                serialPort1.DataBits = Int32.Parse(comboBox3.Text);
+                serialPort1.Parity = System.IO.Ports.Parity.Even;
+                serialPort1.StopBits = System.IO.Ports.StopBits.Two;
+                switch (comboBox4.Text)
+                {
+                    case "None":
+                        serialPort1.Parity = Parity.None;
+                        break;
+                    case "Odd":
+                        serialPort1.Parity = Parity.Odd;
+                        break;
+                    case "Even":
+                        serialPort1.Parity = Parity.Even;
+                        break;
+                    case "Mark":
+                        serialPort1.Parity = Parity.Mark;
+                        break;
+                    case "Space":
+                        serialPort1.Parity = Parity.Space;
+                        break;
+                    default:
+                        MessageBox.Show("Invalid Parity Selection");
+                        return;
+                }
+
+                switch (comboBox5.Text)
+                {
+                    case "1":
+                        serialPort1.StopBits = StopBits.One;
+                        break;
+                    case "1.5":
+                        serialPort1.StopBits = StopBits.OnePointFive;
+                        break;
+                    case "2":
+                        serialPort1.StopBits = StopBits.Two;
+                        break;
+                    default:
+                        MessageBox.Show("Invalid StopBits Selection");
+                        return;
+                }
+                serialPort1.Open();
+                Form1.ActiveForm.Text = serialPort1.PortName + " is connected";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -120,6 +166,16 @@ namespace tes1
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
