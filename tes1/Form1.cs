@@ -13,34 +13,60 @@ namespace tes1
 {
     public partial class Form1 : Form
     {
+        private bool warna1 = true;
+        private bool warna2 = true;
+
+        //// Variables for McLaren movement
+        private int McPosition = 50; // Initial position of the truck
+        private int McStopPoint = 190;
+        private bool McContinue = false;
+        private int McSpeed = 10;
+        private bool waitingForStart = false; // Flag to check if waiting for start
+
+        // Variables for rolling door
+        private int doorSpeed = 5; // Speed of the door movement
+        private bool doorMovingUp = true; // Direction of the door movement
+        private int doorUpperLimit = 0; // Upper limit of the door
+        private int doorLowerLimit; // Lower limit of the door (will be set in Form_Load)
+        private bool doorFullyOpened = false; // Flag to check if the door is fully opened
+        private bool doorClosing = false; // Flag to check if the door is closing
 
         public Form1()
         {
             InitializeComponent();
         }
-        private int McPosition = 50; // Initial position of the truck
-        private int McStopPoint = 190;
-        private bool McContinue = false;
-        private int McSpeed = 10;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             String[] portList = System.IO.Ports.SerialPort.GetPortNames();
             foreach (String portName in portList)
                 comboBox1.Items.Add(portName);
+
+            doorLowerLimit = rollingdoor.Top; // Set the lower limit of the door
+            timer1.Interval = 50; // Set timer interval for McLaren movement
+            timer2.Interval = 50; // Set timer interval for rolling door movement
         }
 
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (McContinue)
+
+            panel42.BackColor = Color.Green;
+            if (waitingForStart)
             {
-                McStopPoint = 735; // Set the new stop point
+                // If waiting for start, just continue the McLaren movement
+                waitingForStart = true;
+                timer1.Start();
+                
             }
-            timer1.Start();
+            else
+            {
+                if (McContinue)
+                {
+                    McStopPoint = 735; // Set the new stop point
+                }
+                timer1.Start();
+            }
 
         }
 
@@ -53,34 +79,34 @@ namespace tes1
             if (McPosition >= McStopPoint)
             {
                 timer1.Stop(); // Stop the timer
-                McContinue = !McContinue; // Toggle the continuous movement flag
+
+                if (McStopPoint == 190)
+                {
+                    // Start rolling door movement if McStopPoint is 190
+                    timer2.Start();
+                    waitingForStart = true; // Set waiting for start flag
+                }
+                else
+                {
+                    McContinue = !McContinue; // Toggle the continuous movement flag
+                }
+                if (warna1)
+                {
+                    panel41.BackColor = Color.Green;
+                    panel6.BackColor = Color.Green;
+                    panel40.BackColor = Color.Green;
+                    warna1 = false;
+                }
+            }
+            // Check if the truck has passed position X = 625
+            if (McPosition > 460 && doorFullyOpened && !doorClosing)
+            {
+                doorClosing = true;
+                doorMovingUp = false; // Set direction to move down
+                timer2.Start(); // Start the timer to close the rolling door
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button5_Click_1(object sender, EventArgs e)
         {
@@ -143,11 +169,6 @@ namespace tes1
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button4_Click_1(object sender, EventArgs e)
         {
             serialPort1.Close();
@@ -159,25 +180,77 @@ namespace tes1
         {
             serialPort1.Close();
         }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void timer2_Tick(object sender, EventArgs e)
         {
-
+            if (doorMovingUp)
+            {
+                rollingdoor.Top -= doorSpeed; // Move the door up
+                if (rollingdoor.Top <= doorUpperLimit)
+                {
+                    doorMovingUp = false; // Change direction when the upper limit is reached
+                    doorFullyOpened = true; // Set the door fully opened flag
+                    timer2.Stop(); // Stop the door movement timer
+                    ContinueMcLarenMovement(); // Continue McLaren movement after door is fully opened
+                }
+            }
+            else
+            {
+                rollingdoor.Top += doorSpeed; // Move the door down
+                if (rollingdoor.Top >= doorLowerLimit)
+                {
+                    timer2.Stop(); // Stop the timer when the door reaches the lower limit
+                    doorClosing = false; // Reset the door closing flag
+                    doorFullyOpened = false; // Reset the door fully opened flag
+                }
+                if (warna2)
+                {
+                    panel41.BackColor = Color.Red;
+                    panel6.BackColor = Color.Red;
+                    panel40.BackColor = Color.Red;
+                    panel38.BackColor = Color.Green;
+                    warna2 = false;
+                }
+            }
+        }
+        private void ContinueMcLarenMovement()
+        {
+            // Continue McLaren movement if the door is fully opened
+            if (doorFullyOpened)
+            {
+                McStopPoint = 735; // Set the new stop point for McLaren
+                waitingForStart = true; // Set waiting for start flag
+            }
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            // Stop all timers
+            timer1.Stop();
+            timer2.Stop();
 
-        }
+            // Reset McLaren position
+            McPosition = 50;
+            McLaren.Left = McPosition;
+            McStopPoint = 190;
+            McContinue = false;
+            waitingForStart = false;
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            // Reset rolling door position and state
+            rollingdoor.Top = doorLowerLimit;
+            doorMovingUp = true;
+            doorFullyOpened = false;
+            doorClosing = false;
 
-        }
+            // Reset panel colors to default red
+            panel41.BackColor = Color.Red;
+            panel6.BackColor = Color.Red;
+            panel40.BackColor = Color.Red;
+            panel42.BackColor = Color.Red;
+            panel38.BackColor = Color.Red; // Assuming this was also changed
 
-        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            // Reset color flags
+            warna1 = true;
+            warna2 = true;
         }
     }
 }
