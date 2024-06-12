@@ -55,10 +55,10 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -262,6 +262,11 @@
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "5",
+            "6",
+            "7",
+            "8"});
             this.comboBox3.Location = new System.Drawing.Point(380, 31);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(114, 28);
@@ -328,29 +333,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Connection";
             // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "None",
-            "Odd",
-            "Mark",
-            "Space"});
-            this.comboBox4.Location = new System.Drawing.Point(380, 65);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(114, 28);
-            this.comboBox4.TabIndex = 25;
-            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(285, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 20);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Parity";
-            // 
             // comboBox5
             // 
             this.comboBox5.FormattingEnabled = true;
@@ -372,6 +354,30 @@
             this.label5.Size = new System.Drawing.Size(81, 20);
             this.label5.TabIndex = 26;
             this.label5.Text = "StopBits";
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Items.AddRange(new object[] {
+            "None",
+            "Even",
+            "Odd",
+            "Mark",
+            "Space"});
+            this.comboBox4.Location = new System.Drawing.Point(380, 65);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(114, 28);
+            this.comboBox4.TabIndex = 25;
+            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox4_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(285, 65);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 20);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Parity";
             // 
             // Form1
             // 
