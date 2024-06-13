@@ -56,6 +56,7 @@ namespace tes1
             {
                 // If waiting for start, just continue the McLaren movement
                 waitingForStart = true;
+                serialPort1.WriteLine("@00RR0000000141*\r\n");
                 timer1.Start();
                 
             }
@@ -79,6 +80,8 @@ namespace tes1
             if (McPosition >= McStopPoint)
             {
                 timer1.Stop(); // Stop the timer
+                serialPort1.WriteLine("@00WR0000000144*\r\n");
+                serialPort1.WriteLine("@00RR0000000141*\r\n");
 
                 if (McStopPoint == 190)
                 {
@@ -94,7 +97,6 @@ namespace tes1
                 {
                     panel41.BackColor = Color.Green;
                     panel6.BackColor = Color.Green;
-                    panel40.BackColor = Color.Green;
                     warna1 = false;
                 }
             }
@@ -110,7 +112,8 @@ namespace tes1
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-            serialPort1.Write(textBox1.Text);
+            serialPort1.WriteLine(textBox1.Text);
+            serialPort1.NewLine = "\r\n";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -159,6 +162,7 @@ namespace tes1
                         MessageBox.Show("Invalid StopBits Selection");
                         return;
                 }
+                serialPort1.NewLine = "\r\n";
                 serialPort1.Open();
                 Form1.ActiveForm.Text = serialPort1.PortName + " is connected";
             }
@@ -184,6 +188,7 @@ namespace tes1
         {
             if (doorMovingUp)
             {
+
                 rollingdoor.Top -= doorSpeed; // Move the door up
                 if (rollingdoor.Top <= doorUpperLimit)
                 {
@@ -228,6 +233,7 @@ namespace tes1
             timer1.Stop();
             timer2.Stop();
 
+            serialPort1.WriteLine("@00WR0000000045*\r\n");
             // Reset McLaren position
             McPosition = 50;
             McLaren.Left = McPosition;
@@ -251,6 +257,53 @@ namespace tes1
             // Reset color flags
             warna1 = true;
             warna2 = true;
+        }
+
+        private void McLaren_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            String receivedMsg = serialPort1.ReadExisting();
+            Tampilkan(receivedMsg);
+        }
+
+        private delegate void TampilkanDelegate(object item);
+
+        private void Tampilkan(object item)
+        {
+            if (InvokeRequired)
+            {
+                listBox1.Invoke(new TampilkanDelegate(Tampilkan), item);
+            }
+            else
+            {
+                if (item.ToString().Contains("@00RR00000141*"))
+                {
+                    panel40.BackColor = Color.Green;
+                }
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rollingdoor_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void panel40_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -129,6 +129,7 @@
             this.label25 = new System.Windows.Forms.Label();
             this.panel52 = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -206,10 +207,10 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(78, 29);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(13, 144);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(184, 74);
+            this.button1.Size = new System.Drawing.Size(144, 52);
             this.button1.TabIndex = 8;
             this.button1.Text = "Mobil Jalan";
             this.button1.UseVisualStyleBackColor = false;
@@ -226,9 +227,11 @@
             this.rollingdoor.Name = "rollingdoor";
             this.rollingdoor.Size = new System.Drawing.Size(16, 134);
             this.rollingdoor.TabIndex = 11;
+            this.rollingdoor.Paint += new System.Windows.Forms.PaintEventHandler(this.rollingdoor_Paint);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.listBox1);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -243,10 +246,10 @@
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(78, 118);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(177, 144);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(184, 74);
+            this.button2.Size = new System.Drawing.Size(144, 52);
             this.button2.TabIndex = 9;
             this.button2.Text = "Reset";
             this.button2.UseVisualStyleBackColor = false;
@@ -272,6 +275,7 @@
             this.McLaren.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.McLaren.TabIndex = 0;
             this.McLaren.TabStop = false;
+            this.McLaren.Click += new System.EventHandler(this.McLaren_Click);
             // 
             // McLaren2
             // 
@@ -291,6 +295,10 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(36, 10);
             this.panel7.TabIndex = 15;
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
             // comboBox1
             // 
@@ -317,6 +325,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(234, 27);
             this.textBox1.TabIndex = 11;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label2
             // 
@@ -960,6 +969,7 @@
             this.panel40.Name = "panel40";
             this.panel40.Size = new System.Drawing.Size(30, 28);
             this.panel40.TabIndex = 15;
+            this.panel40.Paint += new System.Windows.Forms.PaintEventHandler(this.panel40_Paint);
             // 
             // panel41
             // 
@@ -1177,6 +1187,16 @@
             this.label26.TabIndex = 15;
             this.label26.Text = "Program Keseluruhan";
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 20;
+            this.listBox1.Location = new System.Drawing.Point(13, 34);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(308, 104);
+            this.listBox1.TabIndex = 10;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1358,6 +1378,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Panel panel52;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
