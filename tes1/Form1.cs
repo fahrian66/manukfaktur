@@ -25,7 +25,7 @@ namespace tes1
 
         // Variables for rolling door
         private int doorSpeed = 5; // Speed of the door movement
-        private bool doorMovingUp; // Direction of the door movement
+        private bool doorMovingUp = true; // Direction of the door movement
         private int doorUpperLimit = 0; // Upper limit of the door
         private int doorLowerLimit; // Lower limit of the door (will be set in Form_Load)
         private bool doorFullyOpened = false; // Flag to check if the door is fully opened
@@ -52,18 +52,23 @@ namespace tes1
         {
             serialPort1.WriteLine("@00RR0000000141*\r\n");
             panel42.BackColor = Color.Green;
+            serialPort1.WriteLine("@00WR0000000144*\r\n");
             if (waitingForStart)
             {
+                
+                serialPort1.WriteLine("@00WR0000000045*\r\n");
+                serialPort1.WriteLine("@00RR0000000141*\r\n");
                 // If waiting for start, just continue the McLaren movement
                 waitingForStart = true;
                 timer1.Start();
+                
+
             }
             else
             {
                 if (McContinue)
                 {
                     McStopPoint = 735; // Set the new stop point
-
                 }
                 timer1.Start();
             }
@@ -79,12 +84,13 @@ namespace tes1
             if (McPosition >= McStopPoint)
             {
                 timer1.Stop(); // Stop the timer
-                serialPort1.WriteLine("@00WR0000000144*\r\n");
+                
                 serialPort1.WriteLine("@00RR0000000141*\r\n");
 
                 if (McStopPoint == 190)
                 {
                     // Start rolling door movement if McStopPoint is 190
+                    timer2.Start();
                     waitingForStart = true; // Set waiting for start flag
                 }
                 else
@@ -94,6 +100,8 @@ namespace tes1
                 if (warna1)
                 {
                     panel41.BackColor = Color.Green;
+                    panel6.BackColor = Color.Green;
+                    panel40.BackColor = Color.Green;
                     warna1 = false;
                 }
             }
@@ -109,7 +117,7 @@ namespace tes1
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-            serialPort1.WriteLine(textBox1.Text);
+            serialPort1.Write(textBox1.Text);
             serialPort1.NewLine = "\r\n";
         }
 
@@ -185,7 +193,6 @@ namespace tes1
         {
             if (doorMovingUp)
             {
-
                 rollingdoor.Top -= doorSpeed; // Move the door up
                 if (rollingdoor.Top <= doorUpperLimit)
                 {
@@ -197,8 +204,13 @@ namespace tes1
             }
             else
             {
-                
-                
+                rollingdoor.Top += doorSpeed; // Move the door down
+                if (rollingdoor.Top >= doorLowerLimit)
+                {
+                    timer2.Stop(); // Stop the timer when the door reaches the lower limit
+                    doorClosing = false; // Reset the door closing flag
+                    doorFullyOpened = false; // Reset the door fully opened flag
+                }
                 if (warna2)
                 {
                     panel41.BackColor = Color.Red;
@@ -221,13 +233,12 @@ namespace tes1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            serialPort1.WriteLine("@00WR000000084D*\r\n");
+            serialPort1.WriteLine("@00WR0000000045*\r\n");
             // Stop all timers
             timer1.Stop();
             timer2.Stop();
 
-            serialPort1.WriteLine("@00WR000000084D*\r\n");
-            serialPort1.WriteLine("@00WR0000000045*\r\n");
-            
             // Reset McLaren position
             McPosition = 50;
             McLaren.Left = McPosition;
@@ -237,9 +248,9 @@ namespace tes1
 
             // Reset rolling door position and state
             rollingdoor.Top = doorLowerLimit;
+            doorMovingUp = true;
             doorFullyOpened = false;
             doorClosing = false;
-            doorMovingUp = false;
 
             // Reset panel colors to default red
             panel41.BackColor = Color.Red;
@@ -252,7 +263,6 @@ namespace tes1
             warna1 = true;
             warna2 = true;
         }
-
         private void McLaren_Click(object sender, EventArgs e)
         {
 
@@ -283,20 +293,12 @@ namespace tes1
                 {
                     panel40.BackColor = Color.Green;
                     panel6.BackColor = Color.Green;
-                    doorMovingUp = true;
-                    timer2.Start();
-
                 }
 
                 if (item.ToString().Contains("@00RR00000040*"))
                 {
-                    rollingdoor.Top += doorSpeed; // Move the door down
-                    if (rollingdoor.Top >= doorLowerLimit)
-                    {
-                        timer2.Stop(); // Stop the timer when the door reaches the lower limit
-                        doorClosing = false; // Reset the door closing flag
-                        doorFullyOpened = false; // Reset the door fully opened flag
-                    }
+                    panel40.BackColor = Color.Red;
+                    panel6.BackColor = Color.Red;
                 }
             }
         }
@@ -314,6 +316,20 @@ namespace tes1
         {
 
         }
+
+        private void panel42_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel38_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel37_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
-

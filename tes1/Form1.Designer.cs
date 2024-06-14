@@ -38,6 +38,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.rollingdoor = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.McLaren = new System.Windows.Forms.PictureBox();
@@ -129,7 +130,6 @@
             this.label25 = new System.Windows.Forms.Label();
             this.panel52 = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -241,6 +241,16 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Main Control";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 20;
+            this.listBox1.Location = new System.Drawing.Point(13, 34);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(308, 104);
+            this.listBox1.TabIndex = 10;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // button2
             // 
@@ -945,6 +955,7 @@
             this.panel37.Name = "panel37";
             this.panel37.Size = new System.Drawing.Size(30, 28);
             this.panel37.TabIndex = 15;
+            this.panel37.Paint += new System.Windows.Forms.PaintEventHandler(this.panel37_Paint);
             // 
             // panel38
             // 
@@ -953,6 +964,7 @@
             this.panel38.Name = "panel38";
             this.panel38.Size = new System.Drawing.Size(30, 28);
             this.panel38.TabIndex = 15;
+            this.panel38.Paint += new System.Windows.Forms.PaintEventHandler(this.panel38_Paint);
             // 
             // panel39
             // 
@@ -986,6 +998,7 @@
             this.panel42.Name = "panel42";
             this.panel42.Size = new System.Drawing.Size(30, 28);
             this.panel42.TabIndex = 15;
+            this.panel42.Paint += new System.Windows.Forms.PaintEventHandler(this.panel42_Paint);
             // 
             // panel43
             // 
@@ -1186,16 +1199,6 @@
             this.label26.Size = new System.Drawing.Size(136, 16);
             this.label26.TabIndex = 15;
             this.label26.Text = "Program Keseluruhan";
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Location = new System.Drawing.Point(13, 34);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(308, 104);
-            this.listBox1.TabIndex = 10;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // Form1
             // 
